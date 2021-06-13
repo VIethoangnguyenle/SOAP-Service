@@ -1,9 +1,9 @@
 package com.hoang.soapServiceTest.controller;
 
 import com.hoang.soapServiceTest.client.NumberConvertClient;
-import com.hoang.soapServiceTest.client.gen.NumberToWords;
-import com.hoang.soapServiceTest.client.gen.NumberToWordsResponse;
-import com.hoang.soapServiceTest.client.gen.ObjectFactory;
+import com.hoang.soapServiceTest.client.NumberToWords;
+import com.hoang.soapServiceTest.client.NumberToWordsResponse;
+import com.hoang.soapServiceTest.client.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,8 @@ public class controller {
     @PostMapping(value = "", consumes = MediaType.ALL_VALUE)
     public NumberToWordsResponse numberToWordsResponse(@RequestBody NumberToWords number){
         ObjectFactory request = new ObjectFactory();
-        NumberToWordsResponse response = numberConvertClient.getNumberConvert(url, request.createNumberConvert(number));
-        return response;
+        NumberToWords sub = request.createNumberToWords();
+        sub.setUbiNum(number.getUbiNum());
+        return numberConvertClient.getNumberConvert(url, sub);
     }
 }
